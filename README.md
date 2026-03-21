@@ -1,20 +1,79 @@
+# 🌌 Cyber-Vault Loot Box System
+
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+  <img width="1200" height="475" alt="Cyber-Vault Banner" src="public/assets/images/banner.png" />
 </div>
 
-# Run and deploy your AI Studio app
+Cyber-Vault is a high-fidelity Web3 gaming asset decryption platform built on the **Sui Network**. Experience the thrill of unboxing tactical gear and legendary artifacts in a stunning cyberpunk environment.
 
-This contains everything you need to run your app locally.
+## 🚀 Features
 
-View your app in AI Studio: https://ai.studio/apps/2f1cdcfb-fd47-434a-89cf-a45fe2940be5
+- Sui Asset Decryption: Securely purchase and open loot boxes on the Sui blockchain.
+- Dynamic Inventory: Manage your digital arsenal with detailed item statistics and rarity-based categorization.
+- Artifact Arsenal: High-fidelity UI for inspecting items like the **Legendary Plasma Katana** and **Epic Aegis Core**.
+- Buttery Smooth Transitions: Seamless page navigation powered by **Framer Motion**.
+- Cyberpunk Aesthetics: A premium, dark-themed UX with vibrant gold and amber accents.
+- Legendary Pity System: Guaranteed high-tier drops after a set number of decryptions.
 
-## Run Locally
+## 🛠️ Tech Stack
 
-**Prerequisites:**  Node.js
+- Frontend: React + Vite
+- Styling: Tailwind CSS V4 (Vanilla CSS fallback)
+- Animations: Framer Motion (via `motion/react`)
+- Blockchain: Sui SDK (`@mysten/dapp-kit`, `@mysten/sui`)
+- Icons: Lucide React
 
+## 📦 Project Structure
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```bash
+├── contract/             # Sui Move smart contracts
+├── public/               # Static assets (AI-generated card art)
+│   └── assets/images/    # Tactical gear and item textures
+├── src/
+│   ├── components/       # Reusable UI components (Header, Layout, etc.)
+│   ├── pages/            # Core views (Purchase, Inventory, Rewards, Leaderboard)
+│   ├── ux/               # Business logic and state management
+│   ├── App.tsx           # Route definitions
+│   └── index.css         # Global design system & Tailwind layers
+└── vite.config.ts        # Build and dev server configuration
+```
+
+## 🛠️ Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (Latest LTS)
+- A Sui Wallet (e.g., Martian, Sui Wallet)
+
+### Local Development
+
+1. **Clone the repository**:
+   ```bash
+   git clone <your-repo-url>
+   cd cyber-vault-loot-box-system
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment**:
+   Create a `.env` file (copy from `.env.example` if available).
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Run the application**:
+   ```bash
+   npm run dev
+   ```
+
+5. **Build for production**:
+   ```bash
+   npm run build
+   ```
+
+---
+
+*Built with high-fidelity for the Sui Loot Box Hackathon.*
