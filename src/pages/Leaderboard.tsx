@@ -1,6 +1,7 @@
 import { Trophy, ChevronDown, User, Shield, List } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { Player } from '../ux/logic';
+import { staggerContainer, staggerItem, hoverLift, shimmer } from '../utils/animations';
 
 export function Leaderboard() {
   const [players, setPlayers] = useState<Player[]>(window.state.leaderboard);
@@ -41,9 +42,9 @@ export function Leaderboard() {
         </div>
       </div>
       
-      <section className="flex flex-col md:flex-row justify-center items-end gap-4 md:gap-8 min-h-[400px] mt-8 mb-16 pt-10">
+      <section className="flex flex-col md:flex-row justify-center items-end gap-4 md:gap-8 min-h-[400px] mt-8 mb-16 pt-10" style={{ perspective: '1000px' }}>
         {top2 && (
-          <div className="flex flex-col items-center w-full md:w-1/3 order-2 md:order-1 relative group">
+          <div className="flex flex-col items-center w-full md:w-1/3 order-2 md:order-1 relative group animate-slide-in" style={{ animationDelay: '0.1s' }}>
             <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity font-mono text-purple-400 text-xs">LVL {top2.level} collector</div>
             <div className="w-24 h-24 rounded-full bg-slate-800 border-2 border-purple-400 flex items-center justify-center mb-4 z-10 shadow-[0_0_20px_rgba(192,132,252,0.4)] relative overflow-hidden">
               <img alt="Avatar 2" className="w-full h-full object-cover rounded-full opacity-80 mix-blend-screen" src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${top2.address}`} />
@@ -53,14 +54,14 @@ export function Leaderboard() {
               <h3 className="text-white font-bold text-lg">{truncate(top2.address)}</h3>
               <p className="text-purple-400 font-mono text-sm font-bold mt-1">{top2.balance.toLocaleString()} SUI</p>
             </div>
-            <div className="w-full h-48 bg-gradient-to-b from-slate-800/80 to-slate-900/40 rounded-t-xl backdrop-blur-md relative flex items-center justify-center border-x border-t border-purple-500/20" style={{ boxShadow: '0 -15px 40px rgba(192, 132, 252, 0.2), inset 0 2px 10px rgba(192, 132, 252, 0.4)', borderTop: '2px solid rgba(192, 132, 252, 0.6)' }}>
+            <div className="w-full h-48 bg-gradient-to-b from-slate-800/80 to-slate-900/40 rounded-t-xl backdrop-blur-md relative flex items-center justify-center border-x border-t border-purple-500/20 hover-lift" style={{ boxShadow: '0 -15px 40px rgba(192, 132, 252, 0.2), inset 0 2px 10px rgba(192, 132, 252, 0.4)', borderTop: '2px solid rgba(192, 132, 252, 0.6)' }}>
               <span className="text-purple-400/20 font-black text-6xl">2</span>
             </div>
           </div>
         )}
         
         {top1 && (
-          <div className="flex flex-col items-center w-full md:w-1/3 order-1 md:order-2 relative group z-20">
+          <div className="flex flex-col items-center w-full md:w-1/3 order-1 md:order-2 relative group z-20 animate-slide-in" style={{ animationDelay: '0s' }}>
             <div className="absolute -top-16 opacity-100 font-mono text-primary text-xs flex items-center gap-1 bg-primary/10 px-3 py-1 rounded border border-primary/30">
               <Shield className="w-4 h-4" /> LVL {top1.level} CYBER-LORD
             </div>
@@ -75,14 +76,14 @@ export function Leaderboard() {
               <h3 className="text-white font-black text-xl drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]">{truncate(top1.address)}</h3>
               <p className="text-primary font-mono text-lg font-black mt-1 drop-shadow-[0_0_8px_rgba(244,209,37,0.5)]">{top1.balance.toLocaleString()} SUI</p>
             </div>
-            <div className="w-full h-64 bg-gradient-to-b from-slate-800/90 to-slate-900/50 rounded-t-xl backdrop-blur-md relative flex items-center justify-center border-x border-t border-primary/30" style={{ boxShadow: '0 -20px 50px rgba(244, 209, 37, 0.3), inset 0 2px 10px rgba(244, 209, 37, 0.5)', borderTop: '2px solid rgba(244, 209, 37, 0.8)' }}>
+            <div className="w-full h-64 bg-gradient-to-b from-slate-800/90 to-slate-900/50 rounded-t-xl backdrop-blur-md relative flex items-center justify-center border-x border-t border-primary/30 hover-lift" style={{ boxShadow: '0 -20px 50px rgba(244, 209, 37, 0.3), inset 0 2px 10px rgba(244, 209, 37, 0.5)', borderTop: '2px solid rgba(244, 209, 37, 0.8)' }}>
               <span className="text-primary/20 font-black text-8xl">1</span>
             </div>
           </div>
         )}
         
         {top3 && (
-          <div className="flex flex-col items-center w-full md:w-1/3 order-3 md:order-3 relative group">
+          <div className="flex flex-col items-center w-full md:w-1/3 order-3 md:order-3 relative group animate-slide-in" style={{ animationDelay: '0.2s' }}>
             <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity font-mono text-blue-400 text-xs">LVL {top3.level} collector</div>
             <div className="w-20 h-20 rounded-full bg-slate-800 border-2 border-blue-400 flex items-center justify-center mb-4 z-10 shadow-[0_0_20px_rgba(96,165,250,0.4)] relative overflow-hidden">
               <img alt="Avatar 3" className="w-full h-full object-cover rounded-full opacity-80 mix-blend-screen" src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${top3.address}`} />
@@ -92,7 +93,7 @@ export function Leaderboard() {
               <h3 className="text-white font-bold text-lg">{truncate(top3.address)}</h3>
               <p className="text-blue-400 font-mono text-sm font-bold mt-1">{top3.balance.toLocaleString()} SUI</p>
             </div>
-            <div className="w-full h-36 bg-gradient-to-b from-slate-800/80 to-slate-900/40 rounded-t-xl backdrop-blur-md relative flex items-center justify-center border-x border-t border-blue-500/20" style={{ boxShadow: '0 -15px 40px rgba(96, 165, 250, 0.2), inset 0 2px 10px rgba(96, 165, 250, 0.4)', borderTop: '2px solid rgba(96, 165, 250, 0.6)' }}>
+            <div className="w-full h-36 bg-gradient-to-b from-slate-800/80 to-slate-900/40 rounded-t-xl backdrop-blur-md relative flex items-center justify-center border-x border-t border-blue-500/20 hover-lift" style={{ boxShadow: '0 -15px 40px rgba(96, 165, 250, 0.2), inset 0 2px 10px rgba(96, 165, 250, 0.4)', borderTop: '2px solid rgba(96, 165, 250, 0.6)' }}>
               <span className="text-blue-400/20 font-black text-6xl">3</span>
             </div>
           </div>
@@ -123,10 +124,11 @@ export function Leaderboard() {
               </tr>
             </thead>
             <tbody className="text-sm">
-              {players.map((player) => (
-                <tr 
-                  key={player.address} 
-                  className={`border-b border-surface-border/30 hover:bg-white/5 transition-colors ${player.isCurrentPlayer ? 'bg-primary/5 border-l-4 border-l-primary' : ''}`}
+              {players.map((player, index) => (
+                <tr
+                  key={player.address}
+                  className={`border-b border-surface-border/30 hover:bg-white/5 transition-all duration-300 hover:translate-x-1 ${player.isCurrentPlayer ? 'bg-primary/5 border-l-4 border-l-primary' : ''}`}
+                  style={{ animation: `slide-in 0.4s ease-out ${index * 0.05}s both` }}
                 >
                   <td className={`px-6 py-4 font-black ${player.rank === 1 ? 'text-primary' : player.rank === 2 ? 'text-purple-400' : player.rank === 3 ? 'text-blue-400' : 'text-slate-400'}`}>
                     <div className="flex items-center gap-2">

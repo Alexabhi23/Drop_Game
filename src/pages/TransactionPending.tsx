@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RefreshCw, ExternalLink } from 'lucide-react';
+import { hoverGlow } from '../utils/animations';
 
 export function TransactionPending() {
   const navigate = useNavigate();
@@ -42,8 +43,8 @@ export function TransactionPending() {
           </div>
         </div>
         
-        <div className="mt-20 absolute bottom-12">
-          <a href="#" className="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors border border-slate-700/50 hover:border-primary/50 bg-slate-900/50 backdrop-blur-sm px-6 py-3 rounded-full text-xs font-mono uppercase tracking-widest group">
+        <div className="mt-20 absolute bottom-12 animate-slide-in" style={{ animationDelay: '0.5s' }}>
+          <a href="#" className="flex items-center gap-2 text-slate-500 hover:text-primary transition-all border border-slate-700/50 hover:border-primary/50 bg-slate-900/50 backdrop-blur-sm px-6 py-3 rounded-full text-xs font-mono uppercase tracking-widest group hover:shadow-[0_0_30px_rgba(244,209,37,0.3)]">
             View on Sui Explorer
             <ExternalLink className="w-3.5 h-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
           </a>

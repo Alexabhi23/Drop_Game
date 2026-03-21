@@ -1,6 +1,8 @@
 import { useNavigate, Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { Box, Lock, PieChart, Grid, ArrowRight, Shield, Zap, Cpu, Swords } from 'lucide-react';
+import { Box, Lock, PieChart, Grid, ArrowRight, Shield, Zap, Cpu, Swords, Sparkles } from 'lucide-react';
+
+const COST = 10;
 
 export function LootBoxPurchase() {
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ export function LootBoxPurchase() {
       setBalance(window.state.balance);
     };
 
-    const handleError = (e: any) => {
+    const handleError = (e: CustomEvent<{ type: string }>) => {
       if (e.detail.type === 'balance') {
         setIsShaking(true);
         setShowError(true);
@@ -37,7 +39,6 @@ export function LootBoxPurchase() {
       return;
     }
 
-    const COST = 10;
     if (balance < COST) {
       window.ux.triggerError('balance');
       window.ux.addToast("Insufficient balance", "error");
@@ -66,15 +67,15 @@ export function LootBoxPurchase() {
   return (
     <>
       <section className="flex flex-col lg:flex-row gap-8 items-center justify-center min-h-[60vh]">
-        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center gap-8 relative">
-          <div className="w-64 h-64 md:w-96 md:h-96 rounded-full border border-surface-border glass-panel flex items-center justify-center relative shadow-[0_0_50px_rgba(244,209,37,0.1)]">
+        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center gap-8 relative animate-slide-in">
+          <div className="w-64 h-64 md:w-96 md:h-96 rounded-full border border-surface-border glass-panel flex items-center justify-center relative shadow-[0_0_50px_rgba(244,209,37,0.1)] animate-float hover:scale-105 transition-transform duration-500">
             <div className="absolute inset-0 bg-primary/5 rounded-full animate-pulse"></div>
-            <Box className="text-primary/40 w-32 h-32" />
+            <img src="/assets/images/cyber_crate_rare.png" alt="Cyber Vault Loot Box" className="w-[96%] h-[96%] rounded-full object-cover drop-shadow-[0_0_30px_rgba(244,209,37,0.4)] animate-[pulse_4s_ease-in-out_infinite] hover:scale-105 transition-transform duration-500" />
             <div className="absolute top-4 left-4 text-xs font-mono text-primary/60 border border-primary/20 px-2 py-1 rounded">SYS_READY</div>
             <div className="absolute bottom-4 right-4 text-xs font-mono text-primary/60 border border-primary/20 px-2 py-1 rounded">SUI_NETWORK</div>
           </div>
           
-          <div className="w-full max-w-md glass-panel p-6 rounded-xl relative overflow-hidden">
+          <div className="w-full max-w-md glass-panel p-6 rounded-xl relative overflow-hidden animate-shimmer">
             <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
             <div className="flex gap-6 justify-between items-end mb-2">
               <div>
@@ -92,7 +93,7 @@ export function LootBoxPurchase() {
           </div>
         </div>
         
-        <div className="w-full lg:w-1/2 flex flex-col gap-8">
+        <div className="w-full lg:w-1/2 flex flex-col gap-8 animate-slide-in" style={{ animationDelay: '0.2s' }}>
           <div className="text-center lg:text-left">
             <h1 className="text-white text-5xl md:text-6xl font-black leading-tight tracking-tighter uppercase mb-4 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
               Cyber-Vault<br/><span className="text-primary">Loot Box</span>
@@ -102,30 +103,30 @@ export function LootBoxPurchase() {
             </p>
           </div>
           
-          <div className="flex flex-col items-center lg:items-start gap-4">
+          <div className="flex flex-col gap-4 mt-6">
             <button 
               onClick={handlePurchase} 
-              disabled={isPurchasing || balance < 10}
-              className={`w-full sm:w-auto flex items-center justify-center gap-3 rounded-xl h-16 px-10 text-xl font-black uppercase tracking-widest transition-all shadow-lg active:scale-95 group ${
-                balance < 10 
-                  ? 'bg-slate-800 text-slate-500 cursor-not-allowed border-slate-700' 
-                  : 'bg-primary text-background-dark hover:bg-white hover:shadow-[0_0_50px_rgba(244,209,37,0.6)] hover:scale-105'
+              disabled={isPurchasing || balance < COST}
+              className={`w-full flex items-center justify-center gap-3 rounded-xl h-16 sm:h-20 px-6 sm:px-10 text-lg sm:text-xl font-black uppercase tracking-widest transition-all shadow-lg active:scale-95 group ${
+                balance < COST
+                  ? '!bg-[#f4d125] !text-[#020617] cursor-not-allowed opacity-60 shadow-[0_0_15px_rgba(244,209,37,0.4)]'
+                  : 'bg-gradient-to-r from-primary via-yellow-400 to-amber-500 text-background-dark hover:brightness-110 hover:shadow-[0_0_50px_rgba(244,209,37,0.6)] hover:scale-[1.02]'
               } ${isShaking ? 'animate-shake border-2 border-red-500 shadow-[0_0_30px_rgba(239,68,68,0.5)]' : ''}`}
             >
               {isPurchasing ? (
-                <span className="flex items-center gap-2">
-                  <span className="w-5 h-5 border-4 border-background-dark border-t-transparent rounded-full animate-spin"></span>
+                <span className="flex items-center gap-3">
+                  <span className="w-6 h-6 border-4 border-background-dark border-t-transparent rounded-full animate-spin"></span>
                   PROCUREMENT...
                 </span>
               ) : (
                 <>
-                  <Lock className="w-8 h-8 group-hover:rotate-180 transition-transform duration-500" />
-                  <span>{balance < 10 ? 'INSUFFICIENT' : 'Purchase (10 SUI)'}</span>
+                  <Lock className="w-7 h-7 sm:w-8 sm:h-8 group-hover:rotate-180 transition-transform duration-500" />
+                  <span>{balance < COST ? 'INSUFFICIENT FUNDS' : `Purchase (${COST} SUI)`}</span>
                 </>
               )}
             </button>
             {showError && (
-                <p className="text-red-500 font-mono text-sm animate-slide-in font-bold tracking-widest uppercase mt-2">
+                <p className="text-red-500 font-mono text-sm animate-slide-in font-bold tracking-widest uppercase text-center w-full">
                   Insufficient balance
                 </p>
             )}
@@ -197,12 +198,10 @@ export function LootBoxPurchase() {
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="holographic-card rounded-xl p-1 flex flex-col aspect-[3/4] relative overflow-hidden group">
+          <div className="holographic-card rounded-xl p-1 flex flex-col aspect-[3/4] relative overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(244,209,37,0.3)]" style={{ animation: 'slide-in 0.5s ease-out 0s both' }}>
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="w-full h-3/5 bg-slate-900 rounded-lg mb-3 border border-primary/30 relative overflow-hidden" style={{ backgroundImage: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)' }}>
-              <div className="absolute inset-0 flex items-center justify-center opacity-50">
-                <Swords className="w-16 h-16 text-primary" />
-              </div>
+            <div className="w-full h-3/5 bg-slate-900 rounded-lg mb-3 border border-primary/30 relative overflow-hidden">
+              <img src="/assets/images/plasma_katana.png" alt="Plasma Katana" className="w-full h-full object-cover" />
               <div className="absolute top-2 right-2 bg-background-dark/80 px-2 py-1 rounded text-[10px] font-mono text-primary border border-primary/50">#0492</div>
             </div>
             <div className="px-3 pb-3 flex-1 flex flex-col justify-between">
@@ -215,12 +214,10 @@ export function LootBoxPurchase() {
             </div>
           </div>
           
-          <div className="holographic-card rounded-xl p-1 flex flex-col aspect-[3/4] relative overflow-hidden group" style={{ borderColor: 'rgba(192, 132, 252, 0.3)' }}>
+          <div className="holographic-card rounded-xl p-1 flex flex-col aspect-[3/4] relative overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(168,85,247,0.3)]" style={{ borderColor: 'rgba(192, 132, 252, 0.3)', animation: 'slide-in 0.5s ease-out 0.1s both' }}>
             <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="w-full h-3/5 bg-slate-900 rounded-lg mb-3 border border-purple-500/30 relative overflow-hidden" style={{ backgroundImage: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)' }}>
-              <div className="absolute inset-0 flex items-center justify-center opacity-50">
-                <Shield className="w-16 h-16 text-purple-400" />
-              </div>
+            <div className="w-full h-3/5 bg-slate-900 rounded-lg mb-3 border border-purple-500/30 relative overflow-hidden">
+              <img src="/assets/images/aegis_core_shield.png" alt="Aegis Core" className="w-full h-full object-cover" />
               <div className="absolute top-2 right-2 bg-background-dark/80 px-2 py-1 rounded text-[10px] font-mono text-purple-400 border border-purple-500/50">#8831</div>
             </div>
             <div className="px-3 pb-3 flex-1 flex flex-col justify-between">
@@ -233,12 +230,10 @@ export function LootBoxPurchase() {
             </div>
           </div>
           
-          <div className="holographic-card rounded-xl p-1 flex flex-col aspect-[3/4] relative overflow-hidden group" style={{ borderColor: 'rgba(96, 165, 250, 0.3)' }}>
+          <div className="holographic-card rounded-xl p-1 flex flex-col aspect-[3/4] relative overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(96,165,250,0.3)]" style={{ borderColor: 'rgba(96, 165, 250, 0.3)', animation: 'slide-in 0.5s ease-out 0.2s both' }}>
             <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="w-full h-3/5 bg-slate-900 rounded-lg mb-3 border border-blue-500/30 relative overflow-hidden" style={{ backgroundImage: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)' }}>
-              <div className="absolute inset-0 flex items-center justify-center opacity-50">
-                <Zap className="w-16 h-16 text-blue-400" />
-              </div>
+            <div className="w-full h-3/5 bg-slate-900 rounded-lg mb-3 border border-blue-500/30 relative overflow-hidden">
+              <img src="/assets/images/neural_link_chip.png" alt="Neural Link" className="w-full h-full object-cover" />
               <div className="absolute top-2 right-2 bg-background-dark/80 px-2 py-1 rounded text-[10px] font-mono text-blue-400 border border-blue-500/50">#1209</div>
             </div>
             <div className="px-3 pb-3 flex-1 flex flex-col justify-between">
@@ -251,13 +246,11 @@ export function LootBoxPurchase() {
             </div>
           </div>
           
-          <div className="holographic-card rounded-xl p-1 flex flex-col aspect-[3/4] relative overflow-hidden group" style={{ borderColor: 'rgba(148, 163, 184, 0.3)' }}>
+          <div className="holographic-card rounded-xl p-1 flex flex-col aspect-[3/4] relative overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(148,163,184,0.3)]" style={{ borderColor: 'rgba(148, 163, 184, 0.3)', animation: 'slide-in 0.5s ease-out 0.3s both' }}>
             <div className="absolute inset-0 bg-gradient-to-tr from-slate-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="w-full h-3/5 bg-slate-900 rounded-lg mb-3 border border-slate-500/30 relative overflow-hidden" style={{ backgroundImage: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)' }}>
-              <div className="absolute inset-0 flex items-center justify-center opacity-50">
-                <Cpu className="w-16 h-16 text-slate-400" />
-              </div>
-              <div className="absolute top-2 right-2 bg-background-dark/80 px-2 py-1 rounded text-[10px] font-mono text-slate-300 border border-slate-500/50">#5591</div>
+            <div className="w-full h-3/5 bg-slate-900 rounded-lg mb-3 border border-slate-500/30 relative overflow-hidden">
+              <img src="/assets/images/iron_gauntlet_common.png" alt="Scrap Plating" className="w-full h-full object-cover" />
+              <div className="absolute top-2 right-2 bg-background-dark/80 px-2 py-1 rounded text-[10px] font-mono text-slate-300 border border-slate-500/50 backdrop-blur-sm">#5591</div>
             </div>
             <div className="px-3 pb-3 flex-1 flex flex-col justify-between">
               <div>

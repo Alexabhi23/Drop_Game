@@ -1,11 +1,16 @@
-import { Search, Filter, LayoutGrid, List, Swords, Shield, Zap, Cpu, Gamepad2, Landmark, Send, Flame, ChevronDown } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import { Search, Filter, LayoutGrid, List, Swords, Shield, Zap, Cpu, Gamepad2, Landmark, Send, Flame, ChevronDown, X } from 'lucide-react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { Item } from '../ux/logic';
 
 export function Inventory() {
   const [items, setItems] = useState<Item[]>(window.state.inventory);
   const [filters, setFilters] = useState(window.state.filters);
   const [balance, setBalance] = useState(window.state.balance);
+
+  // Modal states
+  const [transferModal, setTransferModal] = useState<{ open: boolean; item: Item | null }>({ open: false, item: null });
+  const [transferAddress, setTransferAddress] = useState('');
+  const [burnModal, setBurnModal] = useState<{ open: boolean; item: Item | null }>({ open: false, item: null });
 
   useEffect(() => {
     const handleUpdate = () => {
@@ -18,42 +23,59 @@ export function Inventory() {
     return () => window.removeEventListener('ux-state-update', handleUpdate);
   }, []);
 
-  const handleTransfer = (item: Item) => {
-    const addr = prompt("Enter recipient address (0x...)");
-    if (!addr) {
+  const handleTransfer = useCallback((item: Item) => {
+    setTransferModal({ open: true, item });
+    setTransferAddress('');
+  }, []);
+
+  const confirmTransfer = useCallback(() => {
+    if (!transferModal.item) return;
+    const addr = transferAddress.trim();
+    if (!addr || !addr.startsWith('0x')) {
       window.ux.triggerError('input');
+      window.ux.addToast('Invalid address format', 'error');
       return;
     }
-    window.ux.removeItem(item.id, 'transfer');
-    window.ux.addToast(`Transferred ${item.name} to ${addr.slice(0, 6)}...`, 'transfer');
-    window.ux.addLog('TRANSFER', item.name, `Sent to ${addr.slice(0, 6)}...`);
-  };
+    window.ux.removeItem(transferModal.item.id, 'transfer');
+    window.ux.addToast(`Transferred ${transferModal.item.name} to ${addr.slice(0, 6)}...`, 'transfer');
+    window.ux.addLog('TRANSFER', transferModal.item.name, `Sent to ${addr.slice(0, 6)}...`);
+    setTransferModal({ open: false, item: null });
+    setTransferAddress('');
+  }, [transferModal.item, transferAddress]);
 
-  const handleBurn = (item: Item) => {
-    if (!confirm(`Are you sure you want to incinerate ${item.name}?`)) return;
-    window.ux.removeItem(item.id, 'burn');
-    window.ux.addToast(`Item burned: ${item.name}`, 'burn');
-    window.ux.addLog('BURN', item.name, 'Vaporized');
-  };
+  const handleBurn = useCallback((item: Item) => {
+    setBurnModal({ open: true, item });
+  }, []);
 
-  const filteredItems = items
-    .filter(i => {
-      const matchSearch = i.name.toLowerCase().includes(filters.search.toLowerCase());
-      const matchRarity = filters.rarity === 'all' || i.rarity === filters.rarity;
-      return matchSearch && matchRarity;
-    })
-    .sort((a, b) => {
-      switch (filters.sort) {
-        case 'newest': return b.dateAcquired - a.dateAcquired;
-        case 'power_high': return b.power - a.power;
-        case 'power_low': return a.power - b.power;
-        case 'rarity': {
-          const ranks = { 'Legendary': 4, 'Epic': 3, 'Rare': 2, 'Common': 1 };
-          return ranks[b.rarity] - ranks[a.rarity];
+  const confirmBurn = useCallback(() => {
+    if (!burnModal.item) return;
+    window.ux.removeItem(burnModal.item.id, 'burn');
+    window.ux.addToast(`Item burned: ${burnModal.item.name}`, 'burn');
+    window.ux.addLog('BURN', burnModal.item.name, 'Vaporized');
+    setBurnModal({ open: false, item: null });
+  }, [burnModal.item]);
+
+  const filteredItems = useMemo(() =>
+    items
+      .filter(i => {
+        const matchSearch = i.name.toLowerCase().includes(filters.search.toLowerCase());
+        const matchRarity = filters.rarity === 'all' || i.rarity === filters.rarity;
+        return matchSearch && matchRarity;
+      })
+      .sort((a, b) => {
+        switch (filters.sort) {
+          case 'newest': return b.dateAcquired - a.dateAcquired;
+          case 'power_high': return b.power - a.power;
+          case 'power_low': return a.power - b.power;
+          case 'rarity': {
+            const ranks = { 'Legendary': 4, 'Epic': 3, 'Rare': 2, 'Common': 1 };
+            return ranks[b.rarity] - ranks[a.rarity];
+          }
+          default: return 0;
         }
-        default: return 0;
-      }
-    });
+      }),
+    [items, filters]
+  );
 
   const getRarityIcon = (rarity: string) => {
     switch (rarity) {
@@ -77,7 +99,7 @@ export function Inventory() {
     <>
       <div className="flex flex-col gap-8">
         {/* Top Stats Bar */}
-        <section className="glass-panel rounded-xl p-6 flex flex-col md:flex-row gap-6 justify-between items-center relative overflow-hidden">
+        <section className="glass-panel rounded-xl p-6 flex flex-col md:flex-row gap-6 justify-between items-center relative overflow-hidden animate-shimmer">
           <div className="flex items-center gap-6 w-full md:w-auto">
             <div className="bg-background-dark/80 p-4 rounded-lg border border-surface-border flex items-center gap-4">
               <Landmark className="w-10 h-10 text-primary" />
@@ -101,7 +123,7 @@ export function Inventory() {
         </section>
 
         {/* Filters Bar */}
-        <section className="glass-panel rounded-xl p-4 border border-surface-border/30">
+        <section className="glass-panel rounded-xl p-4 border border-surface-border/30 animate-slide-in" style={{ animationDelay: '0.1s' }}>
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search */}
             <div className="relative flex-1">
@@ -157,7 +179,7 @@ export function Inventory() {
         </section>
 
         {/* Arsenal Grid */}
-        <section className="flex flex-col gap-6">
+        <section className="flex flex-col gap-6 animate-slide-in" style={{ animationDelay: '0.2s' }}>
           <div className="flex items-center justify-between border-b border-surface-border pb-4">
             <h3 className="text-white text-lg font-bold tracking-widest uppercase flex items-center gap-2">
               <LayoutGrid className="w-6 h-6 text-primary" />
@@ -171,29 +193,35 @@ export function Inventory() {
           
           {filteredItems.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-              {filteredItems.map((item) => (
-                <div 
-                  key={item.id} 
-                  className={`holographic-card rounded-xl p-1 flex flex-col aspect-[3/4] relative overflow-hidden group transition-all duration-500 ${item.animation === 'slide-in' ? 'animate-slide-in' : ''} ${item.animation === 'fade-shrink' ? 'animate-fade-shrink' : ''} ${item.animation === 'burn-dissolve' ? 'animate-burn-dissolve' : ''}`}
+              {filteredItems.map((item, index) => (
+                <div
+                  key={item.id}
+                  className={`holographic-card rounded-xl p-1 flex flex-col aspect-[3/4] relative overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${item.animation === 'slide-in' ? 'animate-slide-in' : ''} ${item.animation === 'fade-shrink' ? 'animate-fade-shrink' : ''} ${item.animation === 'burn-dissolve' ? 'animate-burn-dissolve' : ''}`}
+                  style={{ animationDelay: `${index * 0.05}s` }}
                 >
                   <div className={`absolute inset-0 bg-gradient-to-tr opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${item.rarity === 'Legendary' ? 'from-primary/20' : item.rarity === 'Epic' ? 'from-purple-500/20' : item.rarity === 'Rare' ? 'from-blue-500/20' : 'from-slate-500/20'}`}></div>
                   <div className={`w-full h-3/5 bg-slate-900 rounded-lg mb-3 border relative overflow-hidden flex items-center justify-center ${item.rarity === 'Legendary' ? 'border-primary/30' : item.rarity === 'Epic' ? 'border-purple-500/30' : item.rarity === 'Rare' ? 'border-blue-500/30' : 'border-slate-500/30'}`} style={{ backgroundImage: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)' }}>
-                    <div className="opacity-80 group-hover:scale-110 transition-transform duration-500">
-                      {getRarityIcon(item.rarity)}
+                    <div className="opacity-80 group-hover:scale-110 transition-transform duration-500 w-full h-full">
+                      {item.rarity === 'Legendary' && <img src="/assets/images/plasma_katana.png" alt={item.name} className="w-full h-full object-cover" />}
+                      {item.rarity === 'Epic' && <img src="/assets/images/aegis_core_shield.png" alt={item.name} className="w-full h-full object-cover" />}
+                      {item.rarity === 'Rare' && <img src="/assets/images/neural_link_chip.png" alt={item.name} className="w-full h-full object-cover" />}
+                      {!['Legendary', 'Epic', 'Rare'].includes(item.rarity) && <img src="/assets/images/iron_gauntlet_common.png" alt={item.name} className="w-full h-full object-cover" />}
                     </div>
                     <div className={`absolute top-2 right-2 bg-background-dark/80 px-2 py-1 rounded text-[10px] font-mono border backdrop-blur-sm ${getRarityColor(item.rarity)} ${item.rarity === 'Legendary' ? 'border-primary/50' : item.rarity === 'Epic' ? 'border-purple-500/50' : item.rarity === 'Rare' ? 'border-blue-500/50' : 'border-slate-500/50'}`}>#{item.id}</div>
                     
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4 z-20">
-                        <button 
-                          onClick={(e) => { e.stopPropagation(); handleTransfer(item); }} 
-                          className="p-3 bg-blue-500/20 border border-blue-500/50 rounded-full text-blue-400 hover:bg-blue-500 hover:text-white transition-all shadow-lg" 
+                        <button
+                          onClick={(e) => { e.stopPropagation(); handleTransfer(item); }}
+                          className="p-3 bg-blue-500/20 border border-blue-500/50 rounded-full text-blue-400 hover:bg-blue-500 hover:text-white transition-all shadow-lg"
+                          aria-label={`Transfer ${item.name}`}
                           title="Transfer"
                         >
                             <Send className="w-4 h-4" />
                         </button>
-                        <button 
-                          onClick={(e) => { e.stopPropagation(); handleBurn(item); }} 
-                          className="p-3 bg-red-500/20 border border-red-500/50 rounded-full text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-lg" 
+                        <button
+                          onClick={(e) => { e.stopPropagation(); handleBurn(item); }}
+                          className="p-3 bg-red-500/20 border border-red-500/50 rounded-full text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-lg"
+                          aria-label={`Burn ${item.name}`}
                           title="Incinerate"
                         >
                             <Flame className="w-4 h-4" />
@@ -223,6 +251,107 @@ export function Inventory() {
           )}
         </section>
       </div>
+
+      {/* Transfer Modal */}
+      {transferModal.open && transferModal.item && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="transfer-title">
+          <div className="glass-panel rounded-2xl p-6 max-w-md w-full border border-primary/30 shadow-2xl animate-slide-in">
+            <div className="flex justify-between items-center mb-6">
+              <h3 id="transfer-title" className="text-white text-lg font-bold tracking-widest uppercase flex items-center gap-2">
+                <Send className="w-5 h-5 text-primary" />
+                Transfer Asset
+              </h3>
+              <button
+                onClick={() => setTransferModal({ open: false, item: null })}
+                className="text-slate-500 hover:text-white transition-colors"
+                aria-label="Close transfer modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="mb-6 p-4 bg-slate-900/50 rounded-lg border border-primary/20">
+              <p className="text-slate-400 text-xs font-mono uppercase tracking-wider mb-1">Asset</p>
+              <p className={`text-lg font-bold ${getRarityColor(transferModal.item.rarity)}`}>{transferModal.item.name}</p>
+              <p className="text-slate-500 text-xs font-mono mt-1">ID: #{transferModal.item.id} | Power: {transferModal.item.power}</p>
+            </div>
+
+            <div className="mb-6">
+              <label htmlFor="transfer-address" className="text-slate-400 text-xs font-mono uppercase tracking-wider mb-2 block">
+                Recipient Address (0x...)
+              </label>
+              <input
+                id="transfer-address"
+                type="text"
+                value={transferAddress}
+                onChange={(e) => setTransferAddress(e.target.value)}
+                placeholder="0x..."
+                className="w-full px-4 py-3 rounded-lg bg-slate-900 border border-surface-border/50 text-white font-mono text-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                autoFocus
+              />
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setTransferModal({ open: false, item: null })}
+                className="flex-1 py-3 px-4 rounded-lg border border-slate-600 text-slate-400 hover:text-white hover:border-slate-400 transition-all font-mono text-xs uppercase tracking-wider"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmTransfer}
+                className="flex-1 py-3 px-4 rounded-lg bg-primary text-background-dark font-bold uppercase tracking-wider text-sm hover:bg-white transition-all"
+              >
+                Transfer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Burn Confirmation Modal */}
+      {burnModal.open && burnModal.item && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="burn-title">
+          <div className="glass-panel rounded-2xl p-6 max-w-md w-full border border-red-500/30 shadow-2xl animate-slide-in">
+            <div className="flex justify-between items-center mb-6">
+              <h3 id="burn-title" className="text-white text-lg font-bold tracking-widest uppercase flex items-center gap-2">
+                <Flame className="w-5 h-5 text-red-500" />
+                Incinerate Asset
+              </h3>
+              <button
+                onClick={() => setBurnModal({ open: false, item: null })}
+                className="text-slate-500 hover:text-white transition-colors"
+                aria-label="Close burn modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="mb-6 p-4 bg-red-950/20 rounded-lg border border-red-500/30">
+              <p className="text-red-400 text-xs font-mono uppercase tracking-wider mb-1">Warning</p>
+              <p className="text-slate-300 text-sm">
+                This action will permanently destroy <span className="text-white font-bold">{burnModal.item.name}</span>.
+                This cannot be undone.
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setBurnModal({ open: false, item: null })}
+                className="flex-1 py-3 px-4 rounded-lg border border-slate-600 text-slate-400 hover:text-white hover:border-slate-400 transition-all font-mono text-xs uppercase tracking-wider"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmBurn}
+                className="flex-1 py-3 px-4 rounded-lg bg-red-500 text-white font-bold uppercase tracking-wider text-sm hover:bg-red-600 transition-all shadow-lg shadow-red-500/20"
+              >
+                Incinerate
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

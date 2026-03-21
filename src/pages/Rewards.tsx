@@ -1,6 +1,7 @@
-import { Coins, Diamond, Swords, Shield, Zap, Cpu, CheckCircle, RotateCcw, Lock } from 'lucide-react';
+import { Coins, Diamond, Swords, Shield, Zap, Cpu, CheckCircle, RotateCcw, Lock, Sparkles } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { MILESTONE_REWARDS } from '../ux/logic';
+import { hoverLift, hoverGlow, shimmer } from '../utils/animations';
 
 export function Rewards() {
   const [level, setLevel] = useState(window.state.level);
@@ -70,7 +71,7 @@ export function Rewards() {
           </div>
         </div>
         
-        <div className="glass-panel p-6 md:p-8 rounded-xl relative overflow-hidden border border-surface-border w-full shadow-[0_0_40px_rgba(0,0,0,0.6)] mt-4">
+        <div className="glass-panel p-6 md:p-8 rounded-xl relative overflow-hidden border border-surface-border w-full shadow-[0_0_40px_rgba(0,0,0,0.6)] mt-4 animate-shimmer">
           <div className="flex justify-between items-end mb-6">
             <div>
               <p className="text-primary text-sm font-mono tracking-widest uppercase mb-1">Current Tier</p>
@@ -101,7 +102,7 @@ export function Rewards() {
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {MILESTONE_REWARDS.map((reward) => {
+          {MILESTONE_REWARDS.map((reward, index) => {
             const isClaimed = claimedRewards.includes(reward.id);
             const isLocked = level < reward.levelRequired;
             const isClickable = !isClaimed && !isLocked;
@@ -118,9 +119,10 @@ export function Rewards() {
             const rarityGlow = reward.rarity === 'Legendary' ? 'from-primary/20' : reward.rarity === 'Epic' ? 'from-purple-500/20' : 'from-blue-500/20';
 
             return (
-              <div 
+              <div
                 key={reward.id}
-                className={`holographic-card rounded-xl p-1 flex flex-col aspect-[3/4] relative overflow-hidden group transition-all duration-300 ${isLocked ? 'grayscale opacity-60' : ''}`}
+                className={`holographic-card rounded-xl p-1 flex flex-col aspect-[3/4] relative overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${isLocked ? 'grayscale opacity-60' : ''}`}
+                style={{ animation: `slide-in 0.5s ease-out ${index * 0.1}s both` }}
                 style={{ borderColor: reward.rarity === 'Epic' ? 'rgba(192, 132, 252, 0.3)' : reward.rarity === 'Rare' ? 'rgba(96, 165, 250, 0.3)' : undefined }}
               >
                 <div className={`absolute inset-0 bg-gradient-to-tr ${rarityGlow} via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>

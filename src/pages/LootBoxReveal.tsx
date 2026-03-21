@@ -100,7 +100,7 @@ export function LootBoxReveal() {
           
           <div className="w-full h-[65%] bg-slate-900 rounded-xl mb-4 border border-primary/50 relative overflow-hidden flex items-center justify-center shadow-inner" style={{ backgroundImage: 'radial-gradient(circle at center, #1e293b 0%, #020617 100%)' }}>
             <div className="absolute inset-0 bg-primary/10 mix-blend-overlay"></div>
-            {revealState === 'revealed' && <Swords className="text-primary w-32 h-32 drop-shadow-[0_0_20px_rgba(244,209,37,0.8)]" />}
+            {revealState === 'revealed' && <img src="/assets/images/plasma_katana.png" alt="Revealed Item" className="w-[85%] h-[85%] object-contain drop-shadow-[0_0_20px_rgba(244,209,37,0.8)]" />}
             
             <div className="absolute top-3 right-3 bg-black/80 px-3 py-1.5 rounded text-xs font-mono text-primary border border-primary/50 shadow-[0_0_10px_rgba(244,209,37,0.3)]">
               #{resultItem.id}

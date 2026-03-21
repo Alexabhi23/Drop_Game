@@ -25,10 +25,16 @@ export function UXOverlay() {
   return (
     <>
       {/* Toast Container */}
-      <div className="fixed top-6 right-6 z-[9999] flex flex-col gap-3 pointer-events-none">
+      <div
+        className="fixed top-6 right-6 z-[9999] flex flex-col gap-3 pointer-events-none"
+        role="region"
+        aria-label="Notifications"
+        aria-live="polite"
+      >
         {toasts.map((toast) => (
           <div
             key={toast.id}
+            role="alert"
             className="flex items-center gap-3 bg-slate-900/90 border border-primary/30 text-white px-4 py-3 rounded-lg shadow-2xl backdrop-blur-md animate-slide-in pointer-events-auto min-w-[280px]"
           >
             {toast.type === 'success' && <CheckCircle className="w-5 h-5 text-green-500" />}
