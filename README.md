@@ -11,7 +11,9 @@ Cyber-Vault is a high-fidelity Web3 gaming asset decryption platform built on th
 - Sui Asset Decryption: Securely purchase and open loot boxes on the Sui blockchain.
 - Dynamic Inventory: Manage your digital arsenal with detailed item statistics and rarity-based categorization.
 - Artifact Arsenal: High-fidelity UI for inspecting items like the **Legendary Plasma Katana** and **Epic Aegis Core**.
-- Buttery Smooth Transitions: Seamless page navigation powered by **Framer Motion**.
+- **Smooth Navigation**: implemented **Framer Motion** for buttery smooth page transitions and cross-fades.
+- **Enhanced Visibility**: Optimized button states and contrast for consistent viewing across dark themes.
+- **Layout Integrity**: Fixed routing-based jitter and layout shifts for a more stable browsing experience.
 - Cyberpunk Aesthetics: A premium, dark-themed UX with vibrant gold and amber accents.
 - Legendary Pity System: Guaranteed high-tier drops after a set number of decryptions.
 

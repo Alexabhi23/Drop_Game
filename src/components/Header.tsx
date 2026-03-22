@@ -1,6 +1,6 @@
-import { ConnectButton, useCurrentAccount, useSuiClient, useSuiClientQuery } from '@mysten/dapp-kit';
+import { ConnectButton, useCurrentAccount } from '@mysten/dapp-kit';
 import { Link, useLocation } from 'react-router-dom';
-import { Hexagon, Wallet, Menu, Shield, Activity } from 'lucide-react';
+import { Hexagon, Menu } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 export function Header() {
@@ -25,7 +25,6 @@ export function Header() {
     return () => window.removeEventListener('ux-state-update', handleUpdate);
   }, []);
 
-  const formatAddress = (addr: string) => `${addr.slice(0, 6)}...${addr.slice(-4)}`;
 
   const navLinks = [
     { name: 'Loot Boxes', path: '/' },
@@ -76,17 +75,6 @@ export function Header() {
             ))}
           </ul>
 
-          {state.connected && (
-            <div className="flex items-center gap-3 bg-background-dark/50 px-4 py-2 rounded-lg border border-surface-border">
-              <Wallet className="w-4 h-4 text-primary" />
-              <span className="text-white font-mono font-bold text-sm">
-                {state.balance.toLocaleString()} <span className="text-primary text-[10px] ml-1">SUI</span>
-              </span>
-              <div className="h-4 w-px bg-slate-700 mx-1"></div>
-              <span className="text-slate-400 font-mono text-xs">{formatAddress(state.walletAddress!)}</span>
-            </div>
-          )}
-
           <ConnectButton
             className="!flex !items-center !justify-center !overflow-hidden !rounded-lg !h-10 !px-6 !bg-[#f4d125] !text-[#020617] !text-sm !font-bold !uppercase !tracking-wider hover:!bg-white !transition-colors !shadow-[0_0_15px_rgba(244,209,37,0.4)]"
           />
@@ -110,16 +98,6 @@ export function Header() {
             ))}
             {/* Mobile wallet + connect */}
             <li className="pt-3 border-t border-surface-border mt-2">
-              {state.connected && (
-                <div className="flex items-center gap-3 bg-background-dark/50 px-4 py-2 rounded-lg border border-surface-border mb-3">
-                  <Wallet className="w-4 h-4 text-primary" />
-                  <span className="text-white font-mono font-bold text-sm">
-                    {state.balance.toLocaleString()} <span className="text-primary text-[10px] ml-1">SUI</span>
-                  </span>
-                  <div className="h-4 w-px bg-slate-700 mx-1"></div>
-                  <span className="text-slate-400 font-mono text-xs">{formatAddress(state.walletAddress!)}</span>
-                </div>
-              )}
               <ConnectButton
                 className="!flex !items-center !justify-center !overflow-hidden !rounded !lg !h-10 !px-6 !bg-[#f4d125] !text-[#020617] !text-sm !font-bold !uppercase !tracking-wider hover:!bg-white !transition-colors !shadow-[0_0_15px_rgba(244,209,37,0.4)]"
               />

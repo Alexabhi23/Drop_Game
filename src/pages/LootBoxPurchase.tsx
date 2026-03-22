@@ -67,7 +67,7 @@ export function LootBoxPurchase() {
   return (
     <>
       <section className="flex flex-col lg:flex-row gap-8 items-center justify-center min-h-[60vh]">
-        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center gap-8 relative animate-slide-in">
+        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center gap-8 relative">
           <div className="w-64 h-64 md:w-96 md:h-96 rounded-full border border-surface-border glass-panel flex items-center justify-center relative shadow-[0_0_50px_rgba(244,209,37,0.1)] animate-float hover:scale-105 transition-transform duration-500">
             <div className="absolute inset-0 bg-primary/5 rounded-full animate-pulse"></div>
             <img src="/assets/images/cyber_crate_rare.png" alt="Cyber Vault Loot Box" className="w-[96%] h-[96%] rounded-full object-cover drop-shadow-[0_0_30px_rgba(244,209,37,0.4)] animate-[pulse_4s_ease-in-out_infinite] hover:scale-105 transition-transform duration-500" />
@@ -93,7 +93,7 @@ export function LootBoxPurchase() {
           </div>
         </div>
         
-        <div className="w-full lg:w-1/2 flex flex-col gap-8 animate-slide-in" style={{ animationDelay: '0.2s' }}>
+        <div className="w-full lg:w-1/2 flex flex-col gap-8">
           <div className="text-center lg:text-left">
             <h1 className="text-white text-5xl md:text-6xl font-black leading-tight tracking-tighter uppercase mb-4 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
               Cyber-Vault<br/><span className="text-primary">Loot Box</span>
@@ -126,7 +126,7 @@ export function LootBoxPurchase() {
               )}
             </button>
             {showError && (
-                <p className="text-red-500 font-mono text-sm animate-slide-in font-bold tracking-widest uppercase text-center w-full">
+                <p className="text-red-500 font-mono text-sm font-bold tracking-widest uppercase text-center w-full">
                   Insufficient balance
                 </p>
             )}

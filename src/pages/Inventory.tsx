@@ -123,7 +123,7 @@ export function Inventory() {
         </section>
 
         {/* Filters Bar */}
-        <section className="glass-panel rounded-xl p-4 border border-surface-border/30 animate-slide-in" style={{ animationDelay: '0.1s' }}>
+        <section className="glass-panel rounded-xl p-4 border border-surface-border/30">
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search */}
             <div className="relative flex-1">
@@ -179,7 +179,7 @@ export function Inventory() {
         </section>
 
         {/* Arsenal Grid */}
-        <section className="flex flex-col gap-6 animate-slide-in" style={{ animationDelay: '0.2s' }}>
+        <section className="flex flex-col gap-6">
           <div className="flex items-center justify-between border-b border-surface-border pb-4">
             <h3 className="text-white text-lg font-bold tracking-widest uppercase flex items-center gap-2">
               <LayoutGrid className="w-6 h-6 text-primary" />
@@ -255,7 +255,7 @@ export function Inventory() {
       {/* Transfer Modal */}
       {transferModal.open && transferModal.item && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="transfer-title">
-          <div className="glass-panel rounded-2xl p-6 max-w-md w-full border border-primary/30 shadow-2xl animate-slide-in">
+          <div className="glass-panel rounded-2xl p-6 max-w-md w-full border border-primary/30 shadow-2xl">
             <div className="flex justify-between items-center mb-6">
               <h3 id="transfer-title" className="text-white text-lg font-bold tracking-widest uppercase flex items-center gap-2">
                 <Send className="w-5 h-5 text-primary" />
@@ -312,7 +312,7 @@ export function Inventory() {
       {/* Burn Confirmation Modal */}
       {burnModal.open && burnModal.item && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="burn-title">
-          <div className="glass-panel rounded-2xl p-6 max-w-md w-full border border-red-500/30 shadow-2xl animate-slide-in">
+          <div className="glass-panel rounded-2xl p-6 max-w-md w-full border border-red-500/30 shadow-2xl">
             <div className="flex justify-between items-center mb-6">
               <h3 id="burn-title" className="text-white text-lg font-bold tracking-widest uppercase flex items-center gap-2">
                 <Flame className="w-5 h-5 text-red-500" />

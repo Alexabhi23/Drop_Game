@@ -122,8 +122,10 @@ export function Rewards() {
               <div
                 key={reward.id}
                 className={`holographic-card rounded-xl p-1 flex flex-col aspect-[3/4] relative overflow-hidden group transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${isLocked ? 'grayscale opacity-60' : ''}`}
-                style={{ animation: `slide-in 0.5s ease-out ${index * 0.1}s both` }}
-                style={{ borderColor: reward.rarity === 'Epic' ? 'rgba(192, 132, 252, 0.3)' : reward.rarity === 'Rare' ? 'rgba(96, 165, 250, 0.3)' : undefined }}
+                style={{ 
+                  animation: `slide-in 0.5s ease-out ${index * 0.1}s both`,
+                  borderColor: reward.rarity === 'Epic' ? 'rgba(192, 132, 252, 0.3)' : reward.rarity === 'Rare' ? 'rgba(96, 165, 250, 0.3)' : undefined 
+                }}
               >
                 <div className={`absolute inset-0 bg-gradient-to-tr ${rarityGlow} via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
                 <div className={`w-full h-3/5 bg-slate-900 rounded-lg mb-3 border ${rarityBorder} relative overflow-hidden`} style={{ backgroundImage: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)' }}>

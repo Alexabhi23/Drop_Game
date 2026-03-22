@@ -44,7 +44,7 @@ export function Leaderboard() {
       
       <section className="flex flex-col md:flex-row justify-center items-end gap-4 md:gap-8 min-h-[400px] mt-8 mb-16 pt-10" style={{ perspective: '1000px' }}>
         {top2 && (
-          <div className="flex flex-col items-center w-full md:w-1/3 order-2 md:order-1 relative group animate-slide-in" style={{ animationDelay: '0.1s' }}>
+          <div className="flex flex-col items-center w-full md:w-1/3 order-2 md:order-1 relative group">
             <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity font-mono text-purple-400 text-xs">LVL {top2.level} collector</div>
             <div className="w-24 h-24 rounded-full bg-slate-800 border-2 border-purple-400 flex items-center justify-center mb-4 z-10 shadow-[0_0_20px_rgba(192,132,252,0.4)] relative overflow-hidden">
               <img alt="Avatar 2" className="w-full h-full object-cover rounded-full opacity-80 mix-blend-screen" src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${top2.address}`} />
@@ -61,7 +61,7 @@ export function Leaderboard() {
         )}
         
         {top1 && (
-          <div className="flex flex-col items-center w-full md:w-1/3 order-1 md:order-2 relative group z-20 animate-slide-in" style={{ animationDelay: '0s' }}>
+          <div className="flex flex-col items-center w-full md:w-1/3 order-1 md:order-2 relative group z-20">
             <div className="absolute -top-16 opacity-100 font-mono text-primary text-xs flex items-center gap-1 bg-primary/10 px-3 py-1 rounded border border-primary/30">
               <Shield className="w-4 h-4" /> LVL {top1.level} CYBER-LORD
             </div>
@@ -83,7 +83,7 @@ export function Leaderboard() {
         )}
         
         {top3 && (
-          <div className="flex flex-col items-center w-full md:w-1/3 order-3 md:order-3 relative group animate-slide-in" style={{ animationDelay: '0.2s' }}>
+          <div className="flex flex-col items-center w-full md:w-1/3 order-3 md:order-3 relative group">
             <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity font-mono text-blue-400 text-xs">LVL {top3.level} collector</div>
             <div className="w-20 h-20 rounded-full bg-slate-800 border-2 border-blue-400 flex items-center justify-center mb-4 z-10 shadow-[0_0_20px_rgba(96,165,250,0.4)] relative overflow-hidden">
               <img alt="Avatar 3" className="w-full h-full object-cover rounded-full opacity-80 mix-blend-screen" src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${top3.address}`} />
