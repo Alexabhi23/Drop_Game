@@ -50,28 +50,33 @@ Cyber-Vault is a high-fidelity Web3 gaming asset decryption platform built on th
 ### Local Development
 
 1. **Clone the repository**:
+
    ```bash
    git clone <your-repo-url>
    cd cyber-vault-loot-box-system
    ```
 
 2. **Install dependencies**:
+
    ```bash
    npm install
    ```
 
 3. **Configure Environment**:
    Create a `.env` file (copy from `.env.example` if available).
+
    ```bash
    cp .env.example .env
    ```
 
 4. **Run the application**:
+
    ```bash
    npm run dev
    ```
 
 5. **Build for production**:
+
    ```bash
    npm run build
    ```
