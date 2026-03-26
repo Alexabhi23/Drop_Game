@@ -1,5 +1,5 @@
 {
-  "name": "Cyber-Vault Loot Box System",
-  "description": "A Web3 gaming loot box system with on-chain randomness, featuring a tactical inventory, rewards season pass, and global leaderboard.",
-  "requestFramePermissions": []
+  "name": "CyberLoot Game",
+  "version": "1.0.5",
+  "description": "Next-gen Web3 Gaming Decryption System on Sui"
 }

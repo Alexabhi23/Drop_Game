@@ -1,10 +1,10 @@
-# 🌌 Cyber-Vault Loot Box System
+# 🌌 CyberLoot Game System
 
 <div align="center">
-  <img width="1200" height="475" alt="Cyber-Vault Banner" src="public/assets/images/banner.png" />
+  <img width="1200" height="475" alt="CyberLoot Banner" src="public/assets/images/banner.png" />
 </div>
 
-Cyber-Vault is a high-fidelity Web3 gaming asset decryption platform built on the **Sui Network**. Experience the thrill of unboxing tactical gear and legendary artifacts in a stunning cyberpunk environment.
+CyberLoot Game is a high-fidelity Web3 gaming asset decryption platform built on the **Sui Network**. Experience the thrill of unboxing tactical gear and legendary artifacts in a stunning cyberpunk environment.
 
 ## 🚀 Features
 
@@ -53,7 +53,7 @@ Cyber-Vault is a high-fidelity Web3 gaming asset decryption platform built on th
 
    ```bash
    git clone <your-repo-url>
-   cd cyber-vault-loot-box-system
+   cd cyberloot-game-system
    ```
 
 2. **Install dependencies**:

@@ -206,7 +206,7 @@ module gaming::loot_box {
 
         let item = GameItem {
             id: object::new(ctx),
-            name: string::utf8(b"Cyber-Vault Asset"),
+            name: string::utf8(b"CyberLoot Asset"),
             rarity,
             power_level,
         };

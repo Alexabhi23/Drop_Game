@@ -197,7 +197,7 @@ module gaming::loot_box_tests {
 
         // Verify item stats
         let (name, rarity, power) = loot_box::get_item_stats(&legendary_item);
-        assert_eq(name, string::utf8(b"Cyber-Vault Asset"));
+        assert_eq(name, string::utf8(b"CyberLoot Asset"));
         assert_eq(rarity, string::utf8(b"Legendary"));
         assert!(power >= 41 && power <= 50, 0);
 

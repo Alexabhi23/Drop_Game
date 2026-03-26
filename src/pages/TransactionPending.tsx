@@ -57,7 +57,7 @@ export function TransactionPending() {
       </div>
       
       <div className="fixed bottom-6 right-6 text-[10px] font-mono text-primary/40 uppercase tracking-widest text-right pointer-events-none">
-        CYBER-VAULT PROTOCOL<br/>
+        CYBERLOOT PROTOCOL<br/>
         SECURE CONNECTION ESTABLISHED
       </div>
     </div>

@@ -96,7 +96,7 @@ export function LootBoxPurchase() {
         <div className="w-full lg:w-1/2 flex flex-col gap-8">
           <div className="text-center lg:text-left">
             <h1 className="text-white text-5xl md:text-6xl font-black leading-tight tracking-tighter uppercase mb-4 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
-              Cyber-Vault<br/><span className="text-primary">Loot Box</span>
+              CyberLoot<br/><span className="text-primary">Game</span>
             </h1>
             <p className="text-slate-300 text-lg md:text-xl font-light tracking-wide max-w-lg mx-auto lg:mx-0">
               Decrypt premium Web3 gaming assets. High-yield tactical gear and legendary artifacts await.

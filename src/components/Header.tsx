@@ -41,7 +41,7 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between whitespace-nowrap">
         <Link to="/" className="flex items-center gap-4 text-primary">
           <Hexagon className="w-8 h-8" />
-          <h2 className="text-white text-xl font-bold leading-tight tracking-widest uppercase">Cyber-Vault</h2>
+          <h2 className="text-white text-xl font-bold leading-tight tracking-widest uppercase">CyberLoot Game</h2>
         </Link>
 
         <button
